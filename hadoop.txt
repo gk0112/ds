@@ -1,0 +1,341 @@
+hadoop fs -mkdir /word12
+hadoop fs -put ex.txt /word12/
+hadoop jar hadoop-mapreduce-examples.jar wordcount /word12 /output12
+hadoop fs -cat /output12/*
+
+
+
+ex.txt
+hello world hello
+ajay vijay ajay
+hi hello hi
+ajay hello world
+vijay hi sdsdfsd
+sfdf dfdsf ajay
+xcxcxzv xvxcvcdvcx axzxzXCzx
+vijay ajay hello
+hi world sdsdfsd
+
+
+
+
+
+Installation of Hadoop:
+Here is the **complete Hadoop installation guide** in simple, easy language:
+
+---
+
+# 🐘 How to Install Hadoop on Windows 10/11
+
+---
+
+## 📋 What You Need Before Starting
+
+- Windows 10 or 11 (64-bit)
+- At least 4GB RAM
+- Internet connection
+- **7-Zip** installed (to open `.tar.gz` files) — download from `https://www.7-zip.org`
+
+---
+
+## 🔵 STEP 1 — Install Java (JDK 8)
+
+Hadoop runs on Java, so first we install Java.
+
+**1.1 — Download Java**
+Go to this link and download **JDK 8 for Windows x64**:
+```
+https://www.oracle.com/java/technologies/downloads/#java8-windows
+```
+
+**1.2 — Install Java in a simple path**
+- First, go to **C: drive** and create a new folder named `Java`
+- So the path becomes → `C:\Java`
+- Run the downloaded `.exe` file
+- When it asks where to install, change the path to `C:\Java`
+- Click Next and finish the installation
+
+> ⚠️ **Why not the default path?**
+> The default path is `C:\Program Files\Java` — the space between "Program" and "Files" causes Hadoop to crash. So we install in `C:\Java` to avoid this.
+
+**1.3 — Check Java is working**
+- Open **Command Prompt** (search `cmd` in Start menu)
+- Type this and press Enter:
+```
+java -version
+```
+- You should see something like `java version "1.8.0_xxx"` — this means Java is installed ✅
+
+---
+
+## 🔵 STEP 2 — Download Hadoop
+
+**2.1 — Go to this link and download Hadoop:**
+```
+https://hadoop.apache.org/releases.html
+```
+Click on the latest stable version (e.g., 3.3.6) → click **binary** → download the `.tar.gz` file.
+
+**2.2 — Extract the file**
+- Right-click the downloaded file → Open with **7-Zip** → Extract here
+- You will get a `.tar` file — right-click that too → Extract again
+- You will now get a folder like `hadoop-3.3.6`
+
+**2.3 — Move the folder to C: drive**
+- Move/paste the extracted folder to your C: drive
+- Rename it to simply `hadoop`
+- Final path should be → `C:\hadoop`
+
+> ⚠️ **Never use folder names with spaces** like `C:\my hadoop` — it will cause errors.
+
+---
+
+## 🔵 STEP 3 — Download WinUtils (Very Important!)
+
+Hadoop was made for Linux. To make it work on Windows, we need a special file called **WinUtils**.
+
+**3.1 — Go to this GitHub link:**
+```
+https://github.com/cdarlint/winutils
+```
+- Find the folder matching your Hadoop version (e.g., `hadoop-3.3.6`)
+- Open the `bin` folder inside it
+- Download all the files (especially `winutils.exe` and `hadoop.dll`)
+
+**3.2 — Paste those files into:**
+```
+C:\hadoop\bin
+```
+Replace any existing files if asked.
+
+---
+
+## 🔵 STEP 4 — Set Environment Variables
+
+Environment variables tell Windows **where Java and Hadoop are installed**. Think of it like telling Windows: *"Hey, Hadoop is kept here!"*
+
+**4.1 — Open Environment Variables**
+- Press `Windows + S` → type **"environment variables"** → click **"Edit the system environment variables"**
+- A window opens → click **"Environment Variables"** button at the bottom
+
+**4.2 — Create JAVA_HOME variable**
+- Under **User Variables**, click **New**
+- Variable name: `JAVA_HOME`
+- Variable value: `C:\Java\jdk1.8.0_xxx` *(use your actual JDK folder name)*
+- Click OK
+
+**4.3 — Create HADOOP_HOME variable**
+- Under **User Variables**, click **New** again
+- Variable name: `HADOOP_HOME`
+- Variable value: `C:\hadoop`
+- Click OK
+
+**4.4 — Edit the PATH variable**
+- Under **System Variables**, find `Path` → click **Edit**
+- Click **New** and add these one by one:
+```
+C:\Java\jdk1.8.0_xxx\bin
+C:\hadoop\bin
+C:\hadoop\sbin
+```
+- Click OK → OK → OK to close all windows
+
+**4.5 — Verify it is working**
+- Close and reopen Command Prompt
+- Type:
+```
+hadoop version
+```
+- If you see Hadoop version info → ✅ Environment variables are set correctly
+
+---
+
+## 🔵 STEP 5 — Configure Hadoop (Edit 5 Files)
+
+Go to this folder:
+```
+C:\hadoop\etc\hadoop
+```
+You need to edit these 5 files:
+
+---
+
+### 📄 File 1 — `hadoop-env.cmd`
+
+- Right-click the file → Open with **Notepad**
+- Find the line that says:
+```
+set JAVA_HOME=%JAVA_HOME%
+```
+- Replace it with your actual Java path:
+```
+set JAVA_HOME=C:\Java\jdk1.8.0_xxx
+```
+- Save and close
+
+---
+
+### 📄 File 2 — `core-site.xml`
+
+- Open with Notepad
+- Find `<configuration>` and `</configuration>` tags
+- Paste this **between** those two tags:
+```xml
+<property>
+  <name>fs.defaultFS</name>
+  <value>hdfs://localhost:9000</value>
+</property>
+```
+- Save and close
+
+---
+
+### 📄 File 3 — `hdfs-site.xml`
+
+First, create these folders manually:
+- Go to `C:\hadoop` → create a new folder called `data`
+- Inside `data`, create two folders: `namenode` and `datanode`
+
+So you have:
+```
+C:\hadoop\data\namenode
+C:\hadoop\data\datanode
+```
+
+Now open `hdfs-site.xml` with Notepad and paste this between the `<configuration>` tags:
+```xml
+<property>
+  <name>dfs.replication</name>
+  <value>1</value>
+</property>
+<property>
+  <name>dfs.namenode.name.dir</name>
+  <value>C:\hadoop\data\namenode</value>
+</property>
+<property>
+  <name>dfs.datanode.data.dir</name>
+  <value>C:\hadoop\data\datanode</value>
+</property>
+```
+- Save and close
+
+---
+
+### 📄 File 4 — `mapred-site.xml`
+
+- Open with Notepad and paste between the `<configuration>` tags:
+```xml
+<property>
+  <name>mapreduce.framework.name</name>
+  <value>yarn</value>
+</property>
+```
+- Save and close
+
+---
+
+### 📄 File 5 — `yarn-site.xml`
+
+- Open with Notepad and paste between the `<configuration>` tags:
+```xml
+<property>
+  <name>yarn.nodemanager.aux-services</name>
+  <value>mapreduce_shuffle</value>
+</property>
+```
+- Save and close
+
+---
+
+## 🔵 STEP 6 — Format the NameNode
+
+This is a **one-time setup step** that prepares Hadoop's storage system (HDFS) for first use.
+
+- Open Command Prompt **as Administrator** (right-click CMD → Run as administrator)
+- Type this command and press Enter:
+```
+hdfs namenode -format
+```
+- Wait for it to finish. You will see a lot of text — that is normal.
+
+> ⚠️ **Only run this command once.** If you run it again later, it will delete all your HDFS data.
+
+---
+
+## 🔵 STEP 7 — Start Hadoop
+
+- Open Command Prompt as Administrator
+- Go to the sbin folder:
+```
+cd C:\hadoop\sbin
+```
+- Start HDFS (NameNode + DataNode):
+```
+start-dfs.cmd
+```
+Two new black windows will open — one for NameNode, one for DataNode. **Do not close them.**
+
+- Start YARN (Resource Manager):
+```
+start-yarn.cmd
+```
+Two more windows will open. **Do not close these either.**
+
+---
+
+## 🔵 STEP 8 — Check if Hadoop is Running
+
+**Option 1 — Use jps command**
+In Command Prompt, type:
+```
+jps
+```
+You should see these 4 things:
+```
+NameNode
+DataNode
+ResourceManager
+NodeManager
+```
+If you see all 4 → ✅ **Hadoop is running successfully!**
+
+**Option 2 — Open in Browser**
+Open any browser and go to:
+```
+http://localhost:9870
+```
+You will see the **Hadoop HDFS dashboard** — this confirms everything is working.
+
+Also check YARN dashboard:
+```
+http://localhost:8088
+```
+
+---
+
+## 🔴 How to Stop Hadoop
+
+When you are done working, always stop Hadoop properly:
+```
+cd C:\hadoop\sbin
+stop-dfs.cmd
+stop-yarn.cmd
+```
+
+---
+
+## ⚡ Quick Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| `hadoop` command not found | Re-check PATH environment variables and reopen CMD |
+| Black windows close instantly | Run CMD as Administrator |
+| Port 9000 already in use | Restart your PC and try again |
+| WinUtils error | Make sure all WinUtils files are in `C:\hadoop\bin` |
+| NameNode not starting | Re-run `hdfs namenode -format` (only if first time) |
+
+---
+
+### 🎉 You are done!
+
+Your Hadoop is now fully installed and running on Windows. You can now use HDFS commands, run MapReduce jobs, and explore the Hadoop ecosystem.
