@@ -1,0 +1,139 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+
+iris = load_iris()
+df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+df['target'] = iris.target
+
+X = df.drop('target', axis=1)
+y = df['target']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
+
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+gaussian = GaussianNB()
+gaussian.fit(X_train, y_train)
+
+y_pred = gaussian.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred, average='micro')
+recall = recall_score(y_test, y_pred, average='micro')
+cm = confusion_matrix(y_test, y_pred)
+
+print(f"Accuracy: {accuracy:.4f}")
+print(f"Precision: {precision:.4f}")
+print(f"Recall: {recall:.4f}")
+print("\nConfusion Matrix:")
+print(cm)
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+            xticklabels=iris.target_names, 
+            yticklabels=iris.target_names)
+plt.xlabel('Predicted Label')
+plt.ylabel('True Label')
+plt.title('Confusion Matrix Heatmap - Iris Dataset')
+plt.show()
+
+
+Title
+Naive Bayes Classification on Iris Dataset
+
+Objective
+To implement Gaussian Naive Bayes classifier on the Iris dataset and evaluate model performance using accuracy, precision, recall, and confusion matrix.
+
+Theory
+Naive Bayes is a supervised machine learning algorithm used for classification problems. It is based on Bayes’ theorem and assumes that all features are independent of each other.
+In this program, the Iris dataset is loaded using load_iris(). The dataset contains flower measurements like sepal length, sepal width, petal length, and petal width. The target column represents the flower species.
+The data is divided into input features X and target output y.
+The dataset is split into training and testing sets using train_test_split(). Training data is used to train the model, and testing data is used to check the model performance.
+Standard Scaling is applied using StandardScaler() to bring all feature values into a similar range.
+The Gaussian Naive Bayes model is created using:
+GaussianNB()
+
+Confusion Matrix
+
+A Confusion Matrix is a table used to measure the performance of a classification model. It compares the actual values with the predicted values.
+
+Terms Explanation
+True Positive (TP)
+
+Model correctly predicts positive class.
+
+Example:
+Person purchased product and model predicted purchased.
+
+True Negative (TN)
+
+Model correctly predicts negative class.
+
+Example:
+Person did not purchase and model predicted not purchased.
+
+False Positive (FP)
+
+Model incorrectly predicts positive class.
+
+Example:
+Person did not purchase but model predicted purchased.
+
+False Negative (FN)
+
+Model incorrectly predicts negative class.
+
+Example:
+Person purchased but model predicted not purchased.
+
+
+The model is trained using fit() and predictions are made using predict().
+The model performance is checked using:
+
+
+Accuracy: Shows overall correct predictions.
+
+
+Precision: Shows correct positive predictions.
+
+
+Recall: Shows how many actual positives are correctly predicted.
+
+
+Confusion Matrix: Shows correct and incorrect predictions for each class.
+
+
+Finally, the confusion matrix is displayed using a heatmap.
+
+Short Algorithm
+Step 1:
+Import required libraries.
+Step 2:
+Load Iris dataset.
+Step 3:
+Create DataFrame and add target column.
+Step 4:
+Separate input features and target output.
+Step 5:
+Split dataset into training and testing data.
+Step 6:
+Apply Standard Scaling.
+Step 7:
+Create Gaussian Naive Bayes model.
+Step 8:
+Train the model.
+Step 9:
+Predict output for test data.
+Step 10:
+Calculate accuracy, precision, recall, and confusion matrix.
+Step 11:
+Display confusion matrix using heatmap.

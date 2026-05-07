@@ -1,0 +1,127 @@
+import nltk
+from nltk.tokenize import sent_tokenize,word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer,WordNetLemmatizer
+from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
+
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('averaged_perceptron_tagger_eng')
+
+txt = """Tokenization is the first step in text analytics. 
+The process of breaking down a text paragraph into smaller 
+chunks such as words or sentences is called Tokenization."""
+
+sentence=sent_tokenize(txt)
+
+sentence
+
+words=word_tokenize(txt)
+
+words
+
+stop_words=set(stopwords.words('english'))
+
+stop_words
+
+filter=[]
+for i in words:
+    if i not in stop_words:
+        filter.append(i)
+
+filter
+
+ls=PorterStemmer()
+stemmed_words=[]
+for i in filter:
+    stemmed_words.append(ls.stem(i))
+
+stemmed_words
+
+ls=WordNetLemmatizer()
+lemm_words=[]
+for i in filter:
+    lemm_words.append(ls.lemmatize(i))
+
+lemm_words
+
+pos_tag=nltk.pos_tag(filter)
+
+pos_tag
+
+cv=CountVectorizer()
+
+x=cv.fit_transform(filter)
+
+x
+
+x.toarray()
+
+cv.get_feature_names_out()
+
+x1=TfidfVectorizer()
+
+y=x1.fit_transform(filter)
+
+y
+
+y.toarray()
+
+x1.get_feature_names_out()
+
+
+
+
+Title
+Text Preprocessing using NLTK
+
+Objective
+To perform text preprocessing operations like tokenization, stopword removal, stemming, lemmatization, POS tagging, Count Vectorization, and TF-IDF Vectorization.
+
+Theory
+Text preprocessing is an important step in Natural Language Processing. It is used to clean and convert text data into a useful format for machine learning models.
+In this program, the NLTK library is used for text preprocessing. First, required NLTK packages are downloaded, such as punkt, stopwords, wordnet, and POS tagger.
+A text paragraph is stored in the variable txt. Then tokenization is performed.
+Sentence tokenization breaks the paragraph into separate sentences using:
+sent_tokenize()
+Word tokenization breaks the paragraph into separate words using:
+word_tokenize()
+After tokenization, stopwords are removed. Stopwords are common words like “is”, “the”, “in”, “of”, etc. These words are usually removed because they do not add much meaning.
+Then stemming is performed using PorterStemmer. Stemming reduces words to their root form. For example, breaking becomes break.
+After stemming, lemmatization is performed using WordNetLemmatizer. Lemmatization also converts words to base form, but it gives more meaningful words than stemming.
+Next, POS tagging is applied using:
+nltk.pos_tag()
+POS tagging identifies the grammatical role of each word, such as noun, verb, adjective, etc.
+Then Count Vectorization is used. It converts words into numerical count values.
+Finally, TF-IDF Vectorization is applied. TF-IDF gives importance to words based on how frequently they appear in the text.
+
+Short Algorithm
+Step 1:
+Import required libraries.
+Step 2:
+Download required NLTK packages.
+Step 3:
+Store text paragraph in a variable.
+Step 4:
+Perform sentence tokenization.
+Step 5:
+Perform word tokenization.
+Step 6:
+Remove stopwords from words.
+Step 7:
+Apply stemming on filtered words.
+Step 8:
+Apply lemmatization on filtered words.
+Step 9:
+Apply POS tagging.
+Step 10:
+Apply Count Vectorizer.
+Step 11:
+Display count vector array and feature names.
+Step 12:
+Apply TF-IDF Vectorizer.
+Step 13:
+Display TF-IDF array and feature names.

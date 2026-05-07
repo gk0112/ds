@@ -1,0 +1,140 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+dataset = sns.load_dataset('titanic')
+
+print(dataset.head())
+
+sns.histplot(dataset['fare'], kde=False, bins=10)
+plt.title('Histogram of Fare')
+plt.xlabel('Fare')
+plt.ylabel('Count')
+plt.show()
+
+sns.distplot(dataset['age'], bins=10)
+plt.show()
+
+sns.jointplot(x=dataset['age'], y=dataset['fare'], kind='scatter')
+plt.show()
+
+sns.jointplot(x=dataset['age'], y=dataset['fare'], kind='hex')
+plt.show()
+
+sns.rugplot(dataset['fare'])
+plt.show()
+
+sns.barplot(x='sex', y='age', data=dataset)
+plt.show()
+
+sns.countplot(x='sex', data=dataset)
+plt.show()
+
+sns.boxplot(x='sex', y='age', data=dataset)
+plt.show()
+
+sns.boxplot(x='sex', y='age', data=dataset, hue='survived')
+plt.show()
+
+sns.violinplot(x='sex', y='age', data=dataset)
+plt.show()
+
+sns.violinplot(x='sex', y='age', data=dataset, hue='survived')
+plt.show()
+
+sns.stripplot(x='sex', y='age', data=dataset, jitter=True)
+plt.show()
+
+sns.stripplot(x='sex', y='age', data=dataset, jitter=True, hue='survived')
+plt.show()
+
+sns.swarmplot(x='sex', y='age', data=dataset)
+plt.show()
+
+sns.swarmplot(x='sex', y='age', data=dataset, hue='survived')
+plt.show()
+
+corr = dataset.corr(numeric_only=True)
+
+sns.heatmap(corr)
+plt.show()
+
+sns.heatmap(corr, annot=True)
+plt.show()
+
+sns.clustermap(corr)
+plt.show()
+
+
+Title
+Data Visualization using Seaborn on Titanic Dataset
+
+Objective
+To perform data visualization on the Titanic dataset using different Seaborn plots.
+
+Theory
+Data Visualization is the graphical representation of data. It helps to understand patterns, relationships, trends, and distributions in the dataset.
+In this program, the Titanic dataset is loaded using:
+sns.load_dataset('titanic')
+The dataset contains information such as age, fare, gender, and survival status of passengers.
+Different Seaborn plots are used for visualization.
+Histogram
+histplot() is used to display the distribution of fare values.
+Distplot
+distplot() shows distribution and density of the age column.
+Joint Plot
+jointplot() displays the relationship between age and fare using:
+
+
+Scatter plot
+
+
+Hex plot
+
+
+Rug Plot
+rugplot() shows the distribution of fare values on an axis.
+Bar Plot
+barplot() compares average age based on gender.
+Count Plot
+countplot() shows the count of male and female passengers.
+Box Plot
+boxplot() shows data distribution, median, and outliers for age based on gender and survival status.
+Violin Plot
+violinplot() combines boxplot and density distribution.
+Strip Plot
+stripplot() displays individual data points with jitter.
+Swarm Plot
+swarmplot() displays data points without overlapping.
+Heatmap
+heatmap() visualizes correlation between numerical columns.
+Clustermap
+clustermap() groups similar correlated features together.
+These visualizations help in understanding the Titanic dataset more effectively.
+
+Short Algorithm
+Step 1:
+Import required libraries.
+Step 2:
+Load Titanic dataset.
+Step 3:
+Display first five rows.
+Step 4:
+Create histogram for fare.
+Step 5:
+Create distplot for age.
+Step 6:
+Create joint plots for age and fare.
+Step 7:
+Create rugplot for fare.
+Step 8:
+Create barplot and countplot.
+Step 9:
+Create boxplot and violinplot.
+Step 10:
+Create stripplot and swarmplot.
+Step 11:
+Calculate correlation matrix.
+Step 12:
+Display heatmap and clustermap.

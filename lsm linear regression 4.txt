@@ -1,0 +1,108 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.datasets import fetch_openml
+
+x_simple = np.array([95, 85, 80, 70, 60])
+y_simple = np.array([85, 95, 70, 65, 70])
+
+model_simple = np.polyfit(x_simple, y_simple, 1)
+predict_func = np.poly1d(model_simple)
+y_pred_simple = predict_func(x_simple)
+
+print("--- Synthesis Dataset Results ---")
+print(f"Coefficients: {model_simple}")
+print(f"Prediction for 65: {predict_func(65):.2f}")
+print(f"R2 Score: {r2_score(y_simple, y_pred_simple):.4f}")
+
+plt.figure(figsize=(12, 5))
+plt.subplot(1, 2, 1)
+plt.scatter(x_simple, y_simple, c='red', label='Actual')
+plt.plot(x_simple, model_simple[1] + model_simple[0]*x_simple, c='blue', label='Regression Line')
+plt.title("Synthesis Dataset")
+plt.legend()
+
+boston = fetch_openml(name='boston', version=1, as_frame=True)
+df = boston.frame
+
+X = df.drop(['MEDV'], axis=1)
+y = df['MEDV']
+
+xtrain, xtest, ytrain, ytest = train_test_split(X, y, test_size=0.2, random_state=0)
+
+lm = LinearRegression()
+lm.fit(xtrain, ytrain)
+
+ytrain_pred = lm.predict(xtrain)
+ytest_pred = lm.predict(xtest)
+
+print("\n--- Boston Dataset Results ---")
+print(f"Mean Squared Error (Test): {mean_squared_error(ytest, ytest_pred):.4f}")
+print(f"Mean Squared Error (Train): {mean_squared_error(ytrain, ytrain_pred):.4f}")
+
+plt.subplot(1, 2, 2)
+plt.scatter(ytrain, ytrain_pred, c='blue', marker='o', label='Training data')
+plt.scatter(ytest, ytest_pred, c='lightgreen', marker='s', label='Test data')
+plt.xlabel('True values')
+plt.ylabel('Predicted')
+plt.title("True vs Predicted (Boston)")
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+
+
+Title
+Linear Regression using Python
+
+Objective
+To implement Linear Regression on a simple dataset and Boston housing dataset, and evaluate the model using prediction, Mean Squared Error, and R² score.
+
+Theory
+Linear Regression is a supervised machine learning algorithm used to predict a continuous value. It finds the relationship between an independent variable and a dependent variable.
+In this program, first a simple dataset is created using NumPy arrays. The np.polyfit() function is used to find the best-fit regression line. Then np.poly1d() is used to create a prediction function.
+The program predicts the value for input 65 and calculates the R² score. R² score shows how well the regression line fits the data.
+After that, the Boston housing dataset is loaded using fetch_openml(). The dataset contains different house-related features and the target column MEDV, which represents house price.
+The dataset is divided into training and testing parts using train_test_split().
+A Linear Regression model is created using:
+LinearRegression()
+The model is trained using training data and then predictions are made on both training and testing data.
+Mean Squared Error is used to check the prediction error. Lower MSE means better model performance.
+Graphs are also plotted:
+
+
+Simple dataset regression line
+
+
+True values vs predicted values for Boston dataset
+
+
+
+Short Algorithm
+Step 1:
+Import required libraries.
+Step 2:
+Create simple input and output arrays.
+Step 3:
+Apply linear regression using polyfit().
+Step 4:
+Predict output value for input 65.
+Step 5:
+Calculate R² score.
+Step 6:
+Load Boston housing dataset.
+Step 7:
+Separate features and target column.
+Step 8:
+Split data into training and testing sets.
+Step 9:
+Train Linear Regression model.
+Step 10:
+Predict values for train and test data.
+Step 11:
+Calculate Mean Squared Error.
+Step 12:
+Plot regression and prediction graphs.

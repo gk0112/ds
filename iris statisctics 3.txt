@@ -1,0 +1,148 @@
+import pandas as pd
+import seaborn as sns
+from sklearn import preprocessing
+
+iris = sns.load_dataset('iris')
+
+print(iris.head())
+
+print(iris.mean(numeric_only=True))
+
+print(iris.median(numeric_only=True))
+
+print(iris.mode())
+
+print(iris.min(numeric_only=True))
+
+print(iris.max(numeric_only=True))
+
+print(iris.std(numeric_only=True))
+
+print(iris.describe())
+
+print(iris.groupby(['species']).mean(numeric_only=True))
+
+enc = preprocessing.OneHotEncoder()
+
+enc_df = pd.DataFrame(
+    enc.fit_transform(iris[['species']]).toarray()
+)
+
+print(enc_df)
+
+df_encode = iris.join(enc_df)
+
+print(df_encode)
+
+irisSet = (iris['species'] == 'setosa')
+
+print("Iris-setosa")
+print(iris[irisSet].describe())
+
+irisVer = (iris['species'] == 'versicolor')
+
+print("Iris-versicolor")
+print(iris[irisVer].describe())
+
+irisVir = (iris['species'] == 'virginica')
+
+print("Iris-virginica")
+print(iris[irisVir].describe())
+
+
+Title
+
+Statistical Analysis and One Hot Encoding on Iris Dataset
+
+Objective
+
+To perform statistical analysis and One Hot Encoding on the Iris dataset using Python.
+
+Theory
+
+This program performs statistical analysis on the Iris dataset using Python libraries such as Pandas, Seaborn, and Scikit-learn.
+
+First, the Iris dataset is loaded using the sns.load_dataset() function. The dataset contains measurements of flower features like sepal length, sepal width, petal length, petal width, and species name.
+
+The program displays the first five rows of the dataset using head().
+
+Different statistical operations are then performed on numerical columns:
+
+Mean → Calculates the average value.
+Median → Finds the middle value.
+Mode → Finds the most repeated value.
+Minimum and Maximum → Finds smallest and largest values.
+Standard Deviation → Measures spread of data.
+Describe → Gives complete statistical summary.
+
+The dataset is grouped by species using:
+
+groupby(['species']).mean()
+
+This helps compare average measurements of different flower species.
+
+The program also applies One Hot Encoding on the species column using OneHotEncoder().
+
+One Hot Encoding converts categorical values into binary columns.
+
+Example:
+
+Species	Setosa	Versicolor	Virginica
+Setosa	1	0	0
+
+The encoded columns are joined with the original dataset.
+
+Finally, separate datasets are created for:
+
+Iris-setosa
+Iris-versicolor
+Iris-virginica
+
+The statistical summary of each species is displayed using describe().
+
+Short Algorithm
+Step 1:
+
+Import required libraries.
+
+Step 2:
+
+Load Iris dataset.
+
+Step 3:
+
+Display first five rows.
+
+Step 4:
+
+Calculate statistical values:
+
+Mean
+Median
+Mode
+Min
+Max
+Standard deviation
+Step 5:
+
+Display dataset summary using describe().
+
+Step 6:
+
+Group dataset by species and calculate mean.
+
+Step 7:
+
+Apply One Hot Encoding on species column.
+
+Step 8:
+
+Join encoded data with original dataset.
+
+Step 9:
+
+Filter dataset for each species.
+
+Step 10:
+
+Display statistical summary for each species.

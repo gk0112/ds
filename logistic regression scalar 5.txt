@@ -1,0 +1,106 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+
+dataset = pd.read_csv('Social_Network_Ads.csv')
+
+X = dataset.iloc[:, [2,3]].values
+y = dataset.iloc[:, 4].values
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=0
+)
+
+sc = StandardScaler()
+
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+logreg = LogisticRegression()
+
+logreg.fit(X_train, y_train)
+
+y_pred = logreg.predict(X_test)
+
+cm = confusion_matrix(y_test, y_pred)
+
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+
+print("Confusion Matrix")
+print(cm)
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+
+sns.heatmap(cm, annot=True, cmap='Blues')
+
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.title('Confusion Matrix')
+
+plt.show()
+
+
+
+
+Title
+Logistic Regression using Python
+
+Objective
+To implement Logistic Regression on Social Network Ads dataset and evaluate the model using confusion matrix, accuracy, precision, and recall.
+
+Theory
+Logistic Regression is a supervised machine learning algorithm used for classification problems. It predicts categorical output, usually in the form of 0 or 1.
+In this program, the Social Network Ads dataset is used. The input features are selected from columns 2 and 3, which are usually Age and Estimated Salary. The output column is selected as the target variable, which shows whether the user purchased the product or not.
+The dataset is divided into training and testing data using train_test_split(). Training data is used to train the model, and testing data is used to check model performance.
+Standard Scaling is applied using StandardScaler() to bring all feature values into the same range. This helps the Logistic Regression model perform better.
+The Logistic Regression model is created using:
+LogisticRegression()
+The model is trained using fit() and predictions are made using predict().
+After prediction, the confusion matrix is calculated. A confusion matrix shows correct and incorrect predictions made by the model.
+The model performance is measured using:
+
+
+Accuracy: Overall correct predictions.
+
+
+Precision: Correct positive predictions out of total predicted positives.
+
+
+Recall: Correct positive predictions out of total actual positives.
+
+
+Finally, the confusion matrix is displayed using a heatmap.
+
+Short Algorithm
+Step 1:
+Import required libraries.
+Step 2:
+Load Social Network Ads dataset.
+Step 3:
+Select input features and target output.
+Step 4:
+Split dataset into training and testing sets.
+Step 5:
+Apply Standard Scaling.
+Step 6:
+Create Logistic Regression model.
+Step 7:
+Train the model using training data.
+Step 8:
+Predict output for test data.
+Step 9:
+Create confusion matrix.
+Step 10:
+Calculate accuracy, precision, and recall.
+Step 11:
+Display confusion matrix using heatmap.

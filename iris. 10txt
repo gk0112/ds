@@ -1,0 +1,75 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+iris = sns.load_dataset('iris')
+
+print(iris.dtypes)
+
+iris.hist(figsize=(10,8))
+
+plt.show()
+
+plt.figure(figsize=(12,8))
+
+for i, column in enumerate(iris.columns[:-1], 1):
+    plt.subplot(2,2,i)
+    sns.boxplot(y=iris[column])
+
+plt.tight_layout()
+plt.show()
+
+
+
+
+Title
+Histogram and Boxplot Visualization on Iris Dataset
+
+Objective
+To visualize the distribution of Iris dataset features using histograms and boxplots.
+
+Theory
+Data Visualization helps in understanding the distribution and spread of data using graphical representations.
+In this program, the Iris dataset is loaded using Seaborn’s load_dataset() function. The dataset contains flower measurements such as sepal length, sepal width, petal length, and petal width.
+First, the datatype of each column is displayed using:
+iris.dtypes
+Histograms are created using:
+iris.hist()
+Histograms show the frequency distribution of numerical data and help understand how values are distributed.
+Then boxplots are created for each numerical column using:
+sns.boxplot()
+Boxplots help identify:
+
+
+Median
+
+
+Quartiles
+
+
+Data spread
+
+
+Outliers
+
+
+A loop is used to create separate boxplots for each feature column except the species column.
+subplot() is used to display multiple plots in a single figure.
+Finally, tight_layout() is used to adjust spacing between plots and show() displays the graphs.
+
+Short Algorithm
+Step 1:
+Import Seaborn and Matplotlib libraries.
+Step 2:
+Load Iris dataset.
+Step 3:
+Display datatype of each column.
+Step 4:
+Create histograms for all numerical columns.
+Step 5:
+Create figure for boxplots.
+Step 6:
+Use loop to create boxplots for each feature.
+Step 7:
+Adjust plot layout using tight_layout().
+Step 8:
+Display all graphs using show().
